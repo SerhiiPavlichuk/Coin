@@ -17,7 +17,8 @@ class CoinViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        coinManager.delegate = self
         currencyPicker.delegate = self
         currencyPicker.dataSource = self
 
@@ -48,4 +49,18 @@ extension CoinViewController: UIPickerViewDelegate {
     }
 }
 
+extension CoinViewController: CoinManagerDelegate {
+    func didUpdatePrice(currensy: String, coinPrice: String) {
+        DispatchQueue.main.async {
+            self.bitcoinLabel.text = coinPrice
+            self.currencyLabel.text = currensy
+        }
+    }
+
+    func didFailWithError(error: Error) {
+        print(error)
+    }
+
+
+}
 
